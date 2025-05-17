@@ -1,0 +1,16 @@
+.scanner-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .scanner-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  

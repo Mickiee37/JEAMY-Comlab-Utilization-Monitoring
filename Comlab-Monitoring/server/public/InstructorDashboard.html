@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .info-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .lab-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .lab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .active {
+            border-left: 4px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Instructor Dashboard</h1>
+        <div class="info-section">
+            <h2>Welcome, <span id="instructor-name"></span></h2>
+            <p>Current Time: <span id="current-time"></span></p>
+            <p>Active Lab: <span id="active-lab"></span></p>
+        </div>
+        <div class="lab-status">
+            <!-- Lab status cards will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const instructorName = urlParams.get('name');
+        document.getElementById('instructor-name').textContent = instructorName || 'Instructor';
+        
+        // Update current time
+        function updateTime() {
+            document.getElementById('current-time').textContent = new Date().toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Populate lab status
+        const labStatus = document.querySelector('.lab-status');
+        for (let i = 1; i <= 4; i++) {
+            const labCard = document.createElement('div');
+            labCard.className = 'lab-card';
+            labCard.innerHTML = `
+                <h3>Computer Laboratory ${i}</h3>
+                <p>Status: Available</p>
+            `;
+            labStatus.appendChild(labCard);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,165 @@
+/* General Container Styles */
+.login-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .login-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .login-form {
+    flex: 0.4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(201, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 500px; /* Max width for better scaling */
+    margin: 0 auto;
+  }
+  
+  /* Form Content */
+  .login-form h1 {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    color: rgb(44, 44, 211);
+    margin-bottom: 0.5rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  
+  .login-form p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .login-form p.com {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .google-login {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border-radius: 8px; /* Ensure the button has rounded corners */
+  }
+  
+  .google-login:hover {
+    background-color: #f7f7f7;
+  }
+  
+  hr {
+    width: 100%;
+    margin: 1rem 0;
+  }
+  
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form input[type="email"],
+  form input[type="password"],
+  form input[type="text"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    height: 40px;
+  }
+  
+  .show-password {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .show-password input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  
+  .show-password label {
+    font-size: 0.9rem;
+  }
+  
+  .login-button {
+    padding: 0.8rem;
+    background-color: #2a38f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #009acd;
+  }
+  
+  .register-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .login-logo {
+    width: 7.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .google-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .google-icon {
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+    margin-right: 8px; /* Space between icon and text */
+  }
+  
+  /* reCAPTCHA Styles */
+  .recaptcha-container {
+    margin-left: 50px;
+    width: 0%; /* Ensure it fits within the form */
+
+  }
+  
+  .recaptcha-container iframe {
+    width: 100% !important; /* Force iframe to take full width */
+    max-width: 500px; /* Limit max width */
+  }
+  
+  /* Error Message Styles */
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  

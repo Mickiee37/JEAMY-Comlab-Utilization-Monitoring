@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Select Computer Laboratory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .lab-buttons {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .lab-button {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-height: 50px;
+        }
+        .lab-button:hover {
+            background-color: #0056b3;
+        }
+        .lab-button:active {
+            background-color: #004085;
+        }
+        .lab-button.disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .instructor-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        #success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        .error {
+            text-align: center;
+            padding: 15px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .debug-info {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            word-break: break-all;
+            display: none;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .action-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .action-button:active {
+            transform: scale(0.98);
+        }
+        .dashboard-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .refresh-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Computer Laboratory</h1>
+        <div class="instructor-info">
+            <p>Instructor: <span id="instructor-name">Loading...</span></p>
+            <p>Time: <span id="current-time"></span></p>
+        </div>
+        <div id="error-message" class="error" style="display: none;"></div>
+        <div id="loading" class="loading">Loading laboratories...</div>
+        <div id="lab-buttons" class="lab-buttons">
+            <!-- Laboratory buttons will be dynamically added here -->
+        </div>
+        <div id="success-message"></div>
+        <div id="debug-info" class="debug-info"></div>
+    </div>
+
+    <script>
+        // Debug function
+        function debug(msg, obj) {
+            console.log(msg, obj);
+            // Only update debug div if debug mode is enabled
+            if (window.location.search.includes('debug=true')) {
+                const debugDiv = document.getElementById('debug-info');
+                debugDiv.style.display = 'block';
+                debugDiv.innerHTML += `<p>${msg}: ${JSON.stringify(obj)}</p>`;
+            }
+        }
+
+        // Show error
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Get current server address
+        const serverOrigin = window.location.origin;
+        debug('Server origin', serverOrigin);
+
+        // Get URL parameters and decode instructor data
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedData = urlParams.get('data');
+        let instructorData;
+        
+        try {
+            if (!encodedData) {
+                showError('Missing instructor data. Please scan the QR code again.');
+                debug('Missing data parameter', window.location.search);
+            } else {
+                const decodedData = atob(encodedData);
+                debug('Decoded data', decodedData);
+                instructorData = JSON.parse(decodedData);
+                document.getElementById('instructor-name').textContent = instructorData.name + ' ' + instructorData.lastname;
+            }
+        } catch (error) {
+            console.error('Error decoding instructor data:', error);
+            showError('Error decoding instructor data. Please scan the QR code again.');
+            debug('Error decoding', error.message);
+            document.getElementById('instructor-name').textContent = 'Unknown';
+        }
+        
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+
+        // Fetch all laboratories from the server
+        async function fetchLabs() {
+            try {
+                debug('Fetching labs', `${serverOrigin}/api/labs`);
+                const response = await fetch(`${serverOrigin}/api/labs`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch laboratories: ${response.status} ${response.statusText}`);
+                }
+                const labs = await response.json();
+                debug('Labs received', labs);
+                return labs.sort((a, b) => Number(a.labNumber) - Number(b.labNumber)); // Sort by lab number
+            } catch (error) {
+                console.error('Error fetching labs:', error);
+                showError('Error loading laboratories: ' + error.message);
+                debug('Fetch error', error.message);
+                return [];
+            }
+        }
+
+        // Initialize the lab buttons
+        async function initLabButtons() {
+            const loading = document.getElementById('loading');
+            const labButtonsContainer = document.getElementById('lab-buttons');
+            
+            try {
+                const labs = await fetchLabs();
+                loading.style.display = 'none';
+                
+                if (labs.length === 0) {
+                    labButtonsContainer.innerHTML = '<p>No laboratories found.</p>';
+                    return;
+                }
+
+                // Check if instructor is already logged in
+                if (instructorData && instructorData.name) {
+                    const occupiedLab = labs.find(lab => 
+                        lab.status === 'occupied' && 
+                        lab.instructor && 
+                        lab.instructor.includes(instructorData.name)
+                    );
+                    
+                    if (occupiedLab) {
+                        debug('Instructor already logged in', occupiedLab);
+                        // Automatically log them out
+                        processLogout(occupiedLab);
+                        return;
+                    }
+                }
+                
+                // Create fixed buttons for all 10 labs
+                for (let i = 1; i <= 10; i++) {
+                    const lab = labs.find(l => l.labNumber === i.toString()) || 
+                                 { labNumber: i.toString(), status: 'available' };
+                    
+                    const button = document.createElement('button');
+                    button.className = `lab-button ${lab.status !== 'available' ? 'disabled' : ''}`;
+                    button.textContent = `Computer Laboratory ${lab.labNumber}`;
+                    
+                    if (lab.status === 'available') {
+                        button.onclick = () => selectLab(lab.labNumber);
+                    } else {
+                        button.disabled = true;
+                    }
+                    
+                    labButtonsContainer.appendChild(button);
+                }
+                
+                debug('Buttons created', 'Finished');
+            } catch (error) {
+                loading.style.display = 'none';
+                labButtonsContainer.innerHTML = '<p>Error loading laboratories. Please try again.</p>';
+                console.error('Error initializing lab buttons:', error);
+                showError('Error creating lab buttons: ' + error.message);
+                debug('Init error', error.message);
+            }
+        }
+
+        // Process logout when instructor re-scans QR code
+        async function processLogout(lab) {
+            try {
+                debug('Processing logout for', { labNumber: lab.labNumber, instructor: lab.instructor });
+                
+                const timeOut = new Date().toISOString();
+                
+                // Update lab status to available
+                const updateResponse = await fetch(`${serverOrigin}/api/labs/update-status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        labNumber: lab.labNumber,
+                        instructor: null,
+                        timeIn: null,
+                        status: 'available'
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    const errText = await updateResponse.text();
+                    debug('Update response error', errText);
+                    throw new Error('Failed to update lab status: ' + errText);
+                }
+
+                // Record to Google Sheets
+                const sheetResponse = await fetch(`${serverOrigin}/api/google-sheet-data/record-logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        instructor: instructorData.name + ' ' + instructorData.lastname,
+                        timeOut: timeOut,
+                        labNumber: lab.labNumber,
+                        action: 'logout'
+                    })
+                });
+
+                // Show success message for logout
+                const successDiv = document.getElementById('success-message');
+                successDiv.style.display = 'block';
+                successDiv.innerHTML = `
+                    <h2>✅ Time Out Successful!</h2>
+                    <p>You have been logged out from:</p>
+                    <p>Computer Laboratory ${lab.labNumber}</p>
+                    <p>Instructor: ${instructorData.name} ${instructorData.lastname}</p>
+                    <p>Time: ${new Date(timeOut).toLocaleString()}</p>
+                    <div class="action-buttons">
+                        <button onclick="window.location.href='${serverOrigin}/Dashboard'" class="action-button dashboard-btn">Go to Dashboard</button>
+                        <button onclick="window.location.reload()" class="action-button refresh-btn">Scan Another</button>
+                    </div>
+                `;
+
+                // Hide the lab buttons container and loading indicator
+                document.getElementById('lab-buttons').style.display = 'none';
+                document.getElementById('loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error during logout:', error);
+                showError('Error logging out: ' + error.message);
+                debug('Logout error', error.message);
+            }
+        }
+
+        async function selectLab(labNumber) {
+            try {
+                const timeIn = new Date().toISOString();
+                debug('Selecting lab', { labNumber, timeIn });
+                
+                if (!instructorData || !instructorData.name) {
+                    showError('Missing instructor information. Please scan the QR code again.');
+                    return;
+                }
+                
+                // Update lab status first
+                debug('Updating lab status', { url: `${serverOrigin}/api/labs/update-status` });
+                const updateResponse = await fetch(`${serverOrigin}/api/labs/update-status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        labNumber: labNumber,
+                        instructor: instructorData.name + ' ' + instructorData.lastname,
+                        timeIn: timeIn,
+                        status: 'occupied'
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    const errText = await updateResponse.text();
+                    debug('Update response error', errText);
+                    throw new Error('Failed to update lab status: ' + errText);
+                }
+
+                // Also record to Google Sheets
+                debug('Recording to Google Sheets', { url: `${serverOrigin}/api/google-sheet-data/record` });
+                const sheetResponse = await fetch(`${serverOrigin}/api/google-sheet-data/record`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        instructor: instructorData.name + ' ' + instructorData.lastname,
+                        timeIn: timeIn,
+                        labNumber: labNumber,
+                        action: 'login'
+                    })
+                });
+
+                if (!sheetResponse.ok) {
+                    console.warn('Failed to record to Google Sheets, but lab status was updated');
+                    debug('Sheet response error', await sheetResponse.text());
+                }
+
+                // Log the attendance in the background
+                debug('Recording attendance', { url: `${serverOrigin}/api/qr-code/scan` });
+                fetch(`${serverOrigin}/api/qr-code/scan?name=${encodeURIComponent(instructorData.name)}&timeIn=${encodeURIComponent(timeIn)}&labNumber=${labNumber}`, {
+                    method: 'GET'
+                });
+
+                // Show success message without redirecting
+                const successDiv = document.getElementById('success-message');
+                successDiv.style.display = 'block';
+                successDiv.innerHTML = `
+                    <h2>✅ Time In Successful!</h2>
+                    <p>Computer Laboratory ${labNumber}</p>
+                    <p>Instructor: ${instructorData.name} ${instructorData.lastname}</p>
+                    <p>Time: ${new Date(timeIn).toLocaleString()}</p>
+                    <div class="action-buttons">
+                        <button onclick="window.location.href='${serverOrigin}/Dashboard'" class="action-button dashboard-btn">Go to Dashboard</button>
+                        <button onclick="window.location.reload()" class="action-button refresh-btn">Record Another</button>
+                    </div>
+                `;
+
+                // Disable lab buttons to prevent double submission
+                const buttons = document.querySelectorAll('.lab-button');
+                buttons.forEach(button => button.disabled = true);
+                
+                // Hide the lab buttons container
+                document.getElementById('lab-buttons').style.display = 'none';
+                
+                // Hide the loading indicator if still visible
+                document.getElementById('loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error recording time in: ' + error.message);
+                debug('Select lab error', error.message);
+            }
+        }
+
+        // Call the initialization function when the page loads
+        window.onload = initLabButtons;
+    </script>
+</body>
+</html> 

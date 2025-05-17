@@ -1,0 +1,22 @@
+# Environment variables
+.env
+
+# Service account credentials
+credentials/
+*.json
+!package.json
+!package-lock.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock 

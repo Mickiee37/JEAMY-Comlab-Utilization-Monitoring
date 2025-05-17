@@ -1,0 +1,34 @@
+.comlab-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Space between cards */
+    padding: 20px; /* Padding around the grid */
+    background-color: #f9fcff; /* Light background for contrast */
+  }
+  
+  .lab-card {
+    background: #fff; /* Card background */
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center align text */
+    padding: 15px; /* Padding inside the card */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .lab-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .user-name {
+    color: #28a745; /* Green for instructor names */
+    font-weight: bold;
+  }
+  
+  .no-user {
+    color: #ff5722; /* Orange for available labs */
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  

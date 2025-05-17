@@ -1,0 +1,76 @@
+/* Container for the main content */
+.usertype-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('backuser.png'); /* Background image */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Floating content box with slight transparency */
+.usertype-content {
+    background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+    padding: 2rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* Darker shadow for depth */
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Title styling */
+.usertype-content h1 {
+    font-size: 2rem;
+    
+    color: #333; /* Darker color for readability */
+    margin-bottom: 1.5rem;
+}
+
+/* User options container */
+.user-options {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* Individual user card styling */
+.user-card {
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly opaque white */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    width: 120px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 20px rgba(6, 32, 148, 0.651); /* Larger shadow on hover */
+}
+
+/* Selected card styling */
+.selected {
+    border: 2px solid #2A38F3;
+    box-shadow: 0px 4px 15px rgba(42, 56, 243, 0.3);
+}
+
+/* User icon image styling */
+.user-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+.user-card p {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}

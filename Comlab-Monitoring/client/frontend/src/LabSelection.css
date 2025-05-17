@@ -1,0 +1,147 @@
+.lab-selection-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-selection-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.instructor-info {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #dee2e6;
+}
+
+.instructor-info p {
+  margin: 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-grow: 1;
+}
+
+.lab-button {
+  padding: 1.5rem;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: white;
+  color: #007bff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100%;
+  min-height: 80px;
+}
+
+.lab-button:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.lab-button.selected {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.lab-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.error-message {
+  background-color: #dc3545;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success-message {
+  background-color: #28a745;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  color: #6c757d;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.no-labs-message {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.lab-button.in-use {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.lab-button.in-use:disabled {
+  background-color: #fff0f0;
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.lab-button.available {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.lab-status-label {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 12px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+}
+
+.lab-button.in-use .lab-status-label {
+  background-color: #dc3545;
+}
+
+.lab-button.available .lab-status-label {
+  background-color: #007bff;
+} 

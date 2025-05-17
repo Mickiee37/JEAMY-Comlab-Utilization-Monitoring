@@ -1,0 +1,99 @@
+.register-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.register-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+}
+
+.register-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.register-form {
+    flex: 0.4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(201, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 500px; /* Ensure max width to match Login form */
+    margin: 0 auto; /* Center the form */
+}
+
+.register-form h1 {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    color: rgb(44, 44, 211);
+    margin-bottom: 0.5rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.register-form p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.register-form p.com {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.register-logo {
+    width: 7.5rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem; /* Consistent margin */
+    border: 1px solid #ddd;
+    border-radius: 15px;
+}
+
+.register-button {
+    padding: 0.8rem;
+    background-color: #2a38f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background-color: #009acd;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.login-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.show-password {
+    margin-left: 0.5rem;
+}

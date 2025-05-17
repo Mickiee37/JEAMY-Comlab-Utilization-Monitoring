@@ -1,0 +1,167 @@
+.lab-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.lab-card.occupied {
+  border-color: #dc3545;
+}
+
+.lab-card.available {
+  border-color: #28a745;
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.lab-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-badge.occupied {
+  background-color: #dc3545;
+  color: white;
+}
+
+.status-badge.available {
+  background-color: #28a745;
+  color: white;
+}
+
+.lab-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.instructor-info,
+.time-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #2c3e50;
+}
+
+.info-icon {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.label {
+  font-weight: 500;
+  color: #6c757d;
+  min-width: 80px;
+}
+
+.value {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.available-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  color: #28a745;
+}
+
+.available-message span {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.available-message .sub-text {
+  color: #6c757d;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.lab-card h2 {
+  color: #333; /* Darker color for better readability */
+  font-size: 1.6rem; /* Slightly larger font size */
+  margin-bottom: 10px; /* Space below the title */
+}
+
+.lab-card h3 {
+  font-size: 1.3rem; /* Slightly larger font size */
+  color: #4CAF50; /* Green color for instructor name */
+  margin: 5px 0; /* Space above and below the instructor name */
+}
+
+.lab-card p {
+  font-size: 1rem;
+  color: #555; /* Medium gray for text */
+  margin: 5px 0; /* Space above and below the text */
+}
+
+.no-user {
+  color: #FF5722; /* Bright orange for availability message */
+  font-weight: bold;
+  font-size: 1.1rem; /* Slightly larger font size */
+}
+
+.comlab-container {
+  display: grid; /* Grid layout for clear rows and columns */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 30px; /* Spacing between cards */
+  padding: 20px;
+  background-color: #f5f8fa; /* Light background to highlight separation */
+}
+
+.lab-card {
+  background-color: #ffffff;
+  border: 2px solid #007bff; /* Blue border */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.lab-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Lift effect */
+}
+
+.no-user {
+  color: #FF5722; /* Orange color for "available" message */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+h2, h3, p {
+  margin: 10px 0; /* Uniform spacing for text */
+}
